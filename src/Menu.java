@@ -8,12 +8,9 @@ import java.sql.*;
 public class Menu extends JFrame {
 
     private JButton []buttons;
-    String[] labels = { "First Name", "Last Name", "Email Address", "Password", "Department", "Function", "Account Type" };
-    char[] mnemonics = { 'F', 'L', 'E', 'P', 'D', 'F', 'A' };
-    int[] widths = { 15, 15, 15, 15, 15, 15, 15};
-    String[] descs = { "First Name", "Last Name", "Email Address", "Password", "Department", "Function", "Account Type" };
 
-    final AddEmail form = new AddEmail(labels, mnemonics, widths, descs);
+
+    final AddEmail form = new AddEmail();
     final ChangePassword box = new ChangePassword("Change Password Box");
 
 
