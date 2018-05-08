@@ -19,7 +19,7 @@ următoarele operații:
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-            //Selectam datele din tabel
+
 
 //            ResultSet rs = stmt.executeQuery(sql_select);
 //
