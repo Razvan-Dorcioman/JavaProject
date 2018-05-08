@@ -1,8 +1,5 @@
-import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.*;
+import java.sql.*;
 
 //        QueryBuilder query  = new QueryBuilder();
 //        query.insertFromFile();
@@ -17,19 +14,38 @@ import java.sql.Statement;
 public class QueryBuilder {
 
     public static Statement stmt ;
+    public static Connection con;
 
     public QueryBuilder() throws SQLException {
-        Connection con = DBUtil.getConnection(DBType.MYSQLDB);
+        con = DBUtil.getConnection(DBType.MYSQLDB);
         stmt = con.createStatement();
     }
 
-    public static void insertFromFile() throws SQLException {
-                    String sql_insert = "insert into email values ('Sandu', 'Bogdan', 'ex@example.com', 'pass', 'HR', 'manager', 'employee', 1, '2018-02-6')";
+    public static void insertIntoTable(String[] word) throws SQLException {
+                    String sql_insert = "insert into email values ('" + word[0] + "', '" + word[1] + "', '" + word[2] + "', '" + word[3] + "', '" + word[4] + "', '" + word[5] + "', '" + word[6] + "', 1, sysdate())";
                     int result_insert = stmt.executeUpdate(sql_insert);
             if(result_insert > 0)
                 System.out.println("Insert cu succes!");
             else
                 System.out.println("Insert fara succes!");
+    }
+
+    public static void  addEmail(JTextField[] fields) throws SQLException {
+        String firstname = fields[0].getText();
+        String lastname = fields[1].getText();
+        String email = fields[2].getText();
+        String pass = fields[3].getText();
+        for(int i=0; i<4;i++)
+            System.out.println(fields[i].getText());
+        String sql_insert = "insert into email values ('" + firstname +"','" + lastname +"','" + email +"','" + pass +"','HRR','administrator','employer',1,'2018-01-09')";
+        int result_insert = stmt.executeUpdate(sql_insert);
+        if(result_insert > 0)
+            System.out.println("Insert cu succes!");
+        else
+            System.out.println("Insert fara succes!");
+
+        JOptionPane.showMessageDialog(null, "row successfully inserted", "Insert", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     public static void Inactivare() throws SQLException {
@@ -79,6 +95,12 @@ public class QueryBuilder {
             System.out.println("Update inactiv cu succes!");
         else
             System.out.println("Update inactiv fara succes!");
+    }
+
+    public ResultSet selectAll() throws SQLException {
+        String sql_select = "select * from email";
+        ResultSet rs = stmt.executeQuery(sql_select);
+        return rs;
     }
 
 }
