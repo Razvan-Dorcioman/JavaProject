@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class AddEmail extends JFrame {
 
@@ -49,8 +50,17 @@ public class AddEmail extends JFrame {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                try {
+                    QueryBuilder query = new QueryBuilder();
+                    query.addEmail(fields);
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
                 JOptionPane.showMessageDialog(null, "Have a nice day!", "Exit Message", JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
+//                System.exit(0);
+                //form.setVisible(false);
             }
         });
     }
