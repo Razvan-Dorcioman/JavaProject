@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.sql.*;
 
 public class Menu extends JFrame {
@@ -45,11 +46,15 @@ public class Menu extends JFrame {
     }
 
     private void initEvent(){
-        buttons[8].addActionListener(new ActionListener() {
+
+        buttons[0].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Have a nice day!", "Exit Message", JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
+                try {
+                    updateDBfunction(e);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -60,6 +65,30 @@ public class Menu extends JFrame {
             }
         });
 
+        buttons[2].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    QueryBuilder query = new QueryBuilder();
+                    query.Inactivare();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        buttons[3].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    QueryBuilder query = new QueryBuilder();
+                    query.StergeAdresaInactiva();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
         buttons[5].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,33 +96,55 @@ public class Menu extends JFrame {
             }
         });
 
+        buttons[7].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    exportDB(e);
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        buttons[8].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Have a nice day!", "Exit Message", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            }
+        });
+
     }
 
-    private void updateDBfunction(ActionEvent e){
+    private void updateDBfunction(ActionEvent e) throws IOException {
+        FileInputStream fstream = new FileInputStream("inputFile.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+        String line;
+        while ((line = br.readLine()) != null)   {
+            String[] word = line.split(" ");
+            try {
+                QueryBuilder query = new QueryBuilder();
+                query.insertIntoTable(word);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
         JOptionPane.showMessageDialog(null, "Update Database from file succesful!!!", "Update Database", JOptionPane.INFORMATION_MESSAGE);
     }
 
-//    private void insert(ActionEvent e){
-//        try{
-//            String numeField = nume.getText();
-//            Connection con = DBUtil.getConnection(DBType.MYSQLDB);
-//            String sql = "insert into email values(?,?,?,?,?,?,?,?,?)";
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            pstmt.setString(1, numeField);
-//            pstmt.setString(2, "");
-//            pstmt.setString(3, "");
-//            pstmt.setString(4, "");
-//            pstmt.setString(5, "");
-//            pstmt.setString(6, "");
-//            pstmt.setString(7, "");
-//            pstmt.setInt(8, 1);
-//            pstmt.setDate(9, Date.valueOf(""));
-//            pstmt.execute();
-//
-//            JOptionPane.showMessageDialog(null, "row successfully inserted", "Insert", JOptionPane.INFORMATION_MESSAGE);
-//        }
-//        catch (Exception ex){
-//            JOptionPane.showMessageDialog(null, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
+    private void exportDB(ActionEvent e) throws FileNotFoundException, UnsupportedEncodingException, SQLException {
+        PrintWriter writer = new PrintWriter("outputFile.txt", "UTF-8");
+        QueryBuilder query = new QueryBuilder();
+        ResultSet rs = query.selectAll();
+        while(rs.next()) {
+            writer.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " " + rs.getString(8) + " " + rs.getString(9));
+        }
+        writer.close();
+    }
+
 }

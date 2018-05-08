@@ -20,7 +20,6 @@ public class Main {
 
         Menu f = new Menu("Java Project");
         f.setVisible(true);
-        //test
     }
 
 }
