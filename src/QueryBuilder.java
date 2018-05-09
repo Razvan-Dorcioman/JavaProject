@@ -71,9 +71,21 @@ public class QueryBuilder {
         }
     }
 
+    public int VerifyEmailPass(JTextField Email, JTextField oldPass) throws SQLException {
+        String email = Email.getText();
+        String pass = oldPass.getText();
+        String sql_select = "select email, password from email where email = '" + email + "' and password = '" + pass + "'";
+        ResultSet rs = stmt.executeQuery(sql_select);
+        int c = 0;
+        if(rs.next())
+            c++;
+        System.out.println(c);
+        return c;
+    }
 
-    public void ChangePass(String email, String pass) throws SQLException {
-
+    public void ChangePass(JTextField Email,JTextField password) throws SQLException {
+        String email = Email.getText();
+        String pass = password.getText();
 
         String sql_update = "update email set password = '" + pass + "' where email like '" + email + "'";
         int result_update = stmt.executeUpdate(sql_update);
