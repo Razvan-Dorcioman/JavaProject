@@ -70,7 +70,7 @@ public class Menu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     QueryBuilder query = new QueryBuilder();
-                    query.Inactivare();
+                    query.SetInactive();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -82,7 +82,7 @@ public class Menu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     QueryBuilder query = new QueryBuilder();
-                    query.StergeAdresaInactiva();
+                    query.DeleteInactiveEmails();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -114,7 +114,7 @@ public class Menu extends JFrame {
         buttons[8].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Have a nice day!", "Exit Message", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Au revoir, mes amis!", "Exit Message", JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             }
         });

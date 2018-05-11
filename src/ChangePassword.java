@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.sql.SQLOutput;
 
 public class ChangePassword extends JFrame {
@@ -59,7 +60,25 @@ public class ChangePassword extends JFrame {
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Update-ul a functionat");
+                try {
+                    QueryBuilder query = new QueryBuilder();
+                    if(!email.getText().equals("") && !oldPass.getText().equals("") && !newPass.getText().equals("")) {
+                        int rs = query.VerifyEmailPass(email, oldPass);
+                        if (rs != 0) {
+                            query.ChangePass(email, newPass);
+                        }
+                        else
+                            JOptionPane.showMessageDialog(null, "Email or password incorrect", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "Complete all fildes", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+               // System.out.println("Update-ul a functionat");
             }
         });
     }
