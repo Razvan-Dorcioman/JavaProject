@@ -3,11 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AddEmail extends JFrame {
 
-    String[] messageFunction = {"Select Function...", "Director", "Manager", "Worker"};
-    JComboBox messageListFunction = new JComboBox(messageFunction);
+    ArrayList<String> messageFunction = new ArrayList<String>();
+    JComboBox messageListFunction;
     String[] messageDepartment = {"Select Department...", "HR", "Marketing", "Finance"};
     JComboBox messageListDepartment = new JComboBox(messageDepartment);
     String[] messageAccountType = {"Select Account Type...", "Member", "VIP", "Admin"};
@@ -26,8 +27,6 @@ public class AddEmail extends JFrame {
     private JLabel functionLabel = new JLabel("Function: ");
     private JLabel accountTypeLabel = new JLabel("Account Type: ");
 
-
-    // Create a form with the specified labels, tooltips, and sizes.
     public AddEmail() {
         super("Add Email Box");
         setSize(400, 300);
@@ -35,6 +34,9 @@ public class AddEmail extends JFrame {
         setLocation(600, 300);
         setLayout(null);
         setResizable(false);
+
+        messageFunction.add("Select Function...");
+        messageListFunction = new JComboBox(messageAccountType);
 
         initComponent();
         initEvent();
@@ -113,82 +115,5 @@ public class AddEmail extends JFrame {
                 }
             }
         });
-
-//        messageListDepartment.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(e.getSource() == messageListDepartment){
-//                    JComboBox cb = (JComboBox)e.getSource();
-//                    String msg = (String)cb.getSelectedItem();
-//
-//                    switch(msg){
-//                        case "HR":
-//                            System.out.println("HR");
-//                            break;
-//                        case "Marketing":
-//                            System.out.println("Production");
-//                            break;
-//                        case "Finance":
-//                            System.out.println("Marketing");
-//                            break;
-//                        default:
-//                            System.out.println("Error!");
-//
-//                    }
-//                }
-//            }
-//        });
-//
-//        messageListFunction.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(e.getSource() == messageListFunction){
-//                    JComboBox cb = (JComboBox)e.getSource();
-//                    String msg = (String)cb.getSelectedItem();
-//
-//                    switch(msg){
-//                        case "Director":
-//                            System.out.println("Director");
-//                            break;
-//                        case "Manager":
-//                            System.out.println("Manager");
-//                            break;
-//                        case "Worker":
-//                            System.out.println("Worker");
-//                            break;
-//                        default:
-//                            System.out.println("Error!");
-//
-//                    }
-//                }
-//            }
-//        });
-
-        messageListAccountType.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == messageListAccountType) {
-                    JComboBox cb = (JComboBox) e.getSource();
-                    String msg = (String) cb.getSelectedItem();
-
-                    switch (msg) {
-                        case "Member":
-                            System.out.println("Member");
-                            break;
-                        case "VIP":
-                            System.out.println("VIP");
-                            break;
-                        case "Admin":
-                            System.out.println("Admin");
-                            break;
-                        default:
-                            System.out.println("Error!");
-
-                    }
-                }
-            }
-        });
     }
-
-
 }
