@@ -104,6 +104,13 @@ public class Menu extends JFrame {
             }
         });
 
+        buttons[6].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         buttons[7].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

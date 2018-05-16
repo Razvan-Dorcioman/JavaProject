@@ -1,7 +1,7 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -9,8 +9,9 @@ public class AddEmail extends JFrame {
 
     ArrayList<String> messageFunction = new ArrayList<String>();
     JComboBox messageListFunction;
-    String[] messageDepartment = {"Select Department...", "HR", "Marketing", "Finance"};
-    JComboBox messageListDepartment = new JComboBox(messageDepartment);
+
+    ArrayList<String> messageDepartment = new ArrayList<String>();
+    JComboBox messageListDepartment ;
     String[] messageAccountType = {"Select Account Type...", "Member", "VIP", "Admin"};
     JComboBox messageListAccountType = new JComboBox(messageAccountType);
     private JButton submit = new JButton("Submit!");
@@ -27,7 +28,7 @@ public class AddEmail extends JFrame {
     private JLabel functionLabel = new JLabel("Function: ");
     private JLabel accountTypeLabel = new JLabel("Account Type: ");
 
-    public AddEmail() {
+    public AddEmail() throws SQLException {
         super("Add Email Box");
         setSize(400, 300);
 
@@ -36,7 +37,24 @@ public class AddEmail extends JFrame {
         setResizable(false);
 
         messageFunction.add("Select Function...");
-        messageListFunction = new JComboBox(messageAccountType);
+
+        QueryBuilder query = new QueryBuilder();
+        ResultSet rs1 = query.getFunctions();
+        while (rs1.next()) {
+            messageFunction.add(rs1.getString(1));
+        }
+
+        messageDepartment.add("Select Department...");
+        ResultSet rs2 = query.getDepartments();
+        while (rs2.next()) {
+            messageDepartment.add(rs2.getString(1));
+        }
+
+        String[] FunctionString = messageFunction.toArray(new String[messageFunction.size()]);
+        messageListFunction = new JComboBox(FunctionString);
+
+        String[] DEpartmentString = messageDepartment.toArray(new String[messageDepartment.size()]);
+        messageListDepartment = new JComboBox(DEpartmentString);
 
         initComponent();
         initEvent();
@@ -105,7 +123,7 @@ public class AddEmail extends JFrame {
                         if (messageListDepartment.getSelectedItem().toString() != "Select Department..." && messageListFunction.getSelectedItem().toString() != "Select Function..." && messageListAccountType.getSelectedItem().toString() != "Select Account Type...")
                             query.addEmail(firstName, lastName, email, password, messageListDepartment, messageListFunction, messageListAccountType);
                         else
-                            JOptionPane.showMessageDialog(null, "Select an otion for each!", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Select an option for each!", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
                     else
                         JOptionPane.showMessageDialog(null, "Complete all fields!", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
 
