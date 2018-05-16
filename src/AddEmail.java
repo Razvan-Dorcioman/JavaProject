@@ -9,6 +9,7 @@ public class AddEmail extends JFrame {
 
     ArrayList<String> messageFunction = new ArrayList<String>();
     JComboBox messageListFunction;
+
     ArrayList<String> messageDepartment = new ArrayList<String>();
     JComboBox messageListDepartment ;
     String[] messageAccountType = {"Select Account Type...", "Member", "VIP", "Admin"};
@@ -27,8 +28,6 @@ public class AddEmail extends JFrame {
     private JLabel functionLabel = new JLabel("Function: ");
     private JLabel accountTypeLabel = new JLabel("Account Type: ");
 
-
-    // Create a form with the specified labels, tooltips, and sizes.
     public AddEmail() throws SQLException {
         super("Add Email Box");
         setSize(400, 300);
@@ -38,6 +37,7 @@ public class AddEmail extends JFrame {
         setResizable(false);
 
         messageFunction.add("Select Function...");
+
         QueryBuilder query = new QueryBuilder();
         ResultSet rs1 = query.getFunctions();
         while (rs1.next()) {
@@ -133,8 +133,5 @@ public class AddEmail extends JFrame {
                 }
             }
         });
-
     }
-
-
 }
