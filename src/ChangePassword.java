@@ -78,7 +78,6 @@ public class ChangePassword extends JFrame {
                     e1.printStackTrace();
                 }
 
-               // System.out.println("Update-ul a functionat");
             }
         });
     }

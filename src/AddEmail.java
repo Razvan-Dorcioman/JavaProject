@@ -1,15 +1,16 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AddEmail extends JFrame {
 
-    String[] messageFunction = {"Select Function...", "Director", "Manager", "Worker"};
-    JComboBox messageListFunction = new JComboBox(messageFunction);
-    String[] messageDepartment = {"Select Department...", "HR", "Marketing", "Finance"};
-    JComboBox messageListDepartment = new JComboBox(messageDepartment);
+    ArrayList<String> messageFunction = new ArrayList<String>();
+    JComboBox messageListFunction;
+    ArrayList<String> messageDepartment = new ArrayList<String>();
+    JComboBox messageListDepartment ;
     String[] messageAccountType = {"Select Account Type...", "Member", "VIP", "Admin"};
     JComboBox messageListAccountType = new JComboBox(messageAccountType);
     private JButton submit = new JButton("Submit!");
@@ -28,13 +29,32 @@ public class AddEmail extends JFrame {
 
 
     // Create a form with the specified labels, tooltips, and sizes.
-    public AddEmail() {
+    public AddEmail() throws SQLException {
         super("Add Email Box");
         setSize(400, 300);
 
         setLocation(600, 300);
         setLayout(null);
         setResizable(false);
+
+        messageFunction.add("Select Function...");
+        QueryBuilder query = new QueryBuilder();
+        ResultSet rs1 = query.getFunctions();
+        while (rs1.next()) {
+            messageFunction.add(rs1.getString(1));
+        }
+
+        messageDepartment.add("Select Department...");
+        ResultSet rs2 = query.getDepartments();
+        while (rs2.next()) {
+            messageDepartment.add(rs2.getString(1));
+        }
+
+        String[] FunctionString = messageFunction.toArray(new String[messageFunction.size()]);
+        messageListFunction = new JComboBox(FunctionString);
+
+        String[] DEpartmentString = messageDepartment.toArray(new String[messageDepartment.size()]);
+        messageListDepartment = new JComboBox(DEpartmentString);
 
         initComponent();
         initEvent();
@@ -103,7 +123,7 @@ public class AddEmail extends JFrame {
                         if (messageListDepartment.getSelectedItem().toString() != "Select Department..." && messageListFunction.getSelectedItem().toString() != "Select Function..." && messageListAccountType.getSelectedItem().toString() != "Select Account Type...")
                             query.addEmail(firstName, lastName, email, password, messageListDepartment, messageListFunction, messageListAccountType);
                         else
-                            JOptionPane.showMessageDialog(null, "Select an otion for each!", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Select an option for each!", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
                     else
                         JOptionPane.showMessageDialog(null, "Complete all fields!", "Advertisment", JOptionPane.INFORMATION_MESSAGE);
 
@@ -114,80 +134,6 @@ public class AddEmail extends JFrame {
             }
         });
 
-//        messageListDepartment.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(e.getSource() == messageListDepartment){
-//                    JComboBox cb = (JComboBox)e.getSource();
-//                    String msg = (String)cb.getSelectedItem();
-//
-//                    switch(msg){
-//                        case "HR":
-//                            System.out.println("HR");
-//                            break;
-//                        case "Marketing":
-//                            System.out.println("Production");
-//                            break;
-//                        case "Finance":
-//                            System.out.println("Marketing");
-//                            break;
-//                        default:
-//                            System.out.println("Error!");
-//
-//                    }
-//                }
-//            }
-//        });
-//
-//        messageListFunction.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(e.getSource() == messageListFunction){
-//                    JComboBox cb = (JComboBox)e.getSource();
-//                    String msg = (String)cb.getSelectedItem();
-//
-//                    switch(msg){
-//                        case "Director":
-//                            System.out.println("Director");
-//                            break;
-//                        case "Manager":
-//                            System.out.println("Manager");
-//                            break;
-//                        case "Worker":
-//                            System.out.println("Worker");
-//                            break;
-//                        default:
-//                            System.out.println("Error!");
-//
-//                    }
-//                }
-//            }
-//        });
-
-        messageListAccountType.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == messageListAccountType) {
-                    JComboBox cb = (JComboBox) e.getSource();
-                    String msg = (String) cb.getSelectedItem();
-
-                    switch (msg) {
-                        case "Member":
-                            System.out.println("Member");
-                            break;
-                        case "VIP":
-                            System.out.println("VIP");
-                            break;
-                        case "Admin":
-                            System.out.println("Admin");
-                            break;
-                        default:
-                            System.out.println("Error!");
-
-                    }
-                }
-            }
-        });
     }
 
 

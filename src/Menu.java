@@ -14,7 +14,7 @@ public class Menu extends JFrame {
     final ChangePassword box = new ChangePassword("Change Password Box");
 
 
-    public Menu(String title){
+    public Menu(String title) throws SQLException {
         super(title);
         setSize(400,400);
 
@@ -93,6 +93,13 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 box.setVisible(true);
+            }
+        });
+
+        buttons[6].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
 

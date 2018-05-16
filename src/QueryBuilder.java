@@ -1,16 +1,6 @@
 import javax.swing.*;
 import java.sql.*;
 
-//        QueryBuilder query  = new QueryBuilder();
-//        query.insertFromFile();
-//        query.Inactivare();
-//        query.StergeAdresaInactiva();
-//        String dept = "HR";
-//        query.SortareAdrese(dept);
-//        String email = "ex@example.com";
-//        String pass = "password";
-//        query.ChangePass(email,pass);
-
 public class QueryBuilder {
 
     public static Statement stmt;
@@ -19,6 +9,20 @@ public class QueryBuilder {
     public QueryBuilder() throws SQLException {
         con = DBUtil.getConnection(DBType.MYSQLDB);
         stmt = con.createStatement();
+    }
+
+    public static ResultSet getDepartments() throws SQLException {
+        String sql_select = "select name_department from departments";
+        ResultSet rs = stmt.executeQuery(sql_select);
+
+        return rs;
+    }
+
+    public static ResultSet getFunctions() throws SQLException {
+        String sql_select = "select name_function from functions";
+        ResultSet rs = stmt.executeQuery(sql_select);
+
+        return rs;
     }
 
     public static void insertIntoTable(String[] word) throws SQLException {
@@ -62,12 +66,11 @@ public class QueryBuilder {
     }
 
     public static void SortEmails(String dept) throws SQLException {
-//        String dept = "HR";
         String sql_select = "select * from email where department = '" + dept + "' order by first_name, last_name";
         ResultSet rs = stmt.executeQuery(sql_select);
 
         while (rs.next()) {
-            System.out.println(rs.getString(1) + " " + rs.getString(2));
+            System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " " + rs.getString(8) + " " + rs.getString(9));
         }
     }
 
@@ -90,6 +93,12 @@ public class QueryBuilder {
         String sql_update = "update email set password = '" + pass + "' where email like '" + email + "'";
         int result_update = stmt.executeUpdate(sql_update);
         JOptionPane.showMessageDialog(null, "The password was modified!", "Modify password", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void addDepartment(String dept,int n) throws SQLException {
+        String sql_insert = "insert into departments values ('" + n + "','" + dept + "')";
+        int result_insert = stmt.executeUpdate(sql_insert);
+        JOptionPane.showMessageDialog(null, "A new department was inserted", "Add department", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public ResultSet selectAll() throws SQLException {
