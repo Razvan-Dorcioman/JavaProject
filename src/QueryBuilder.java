@@ -1,16 +1,6 @@
 import javax.swing.*;
 import java.sql.*;
 
-//        QueryBuilder query  = new QueryBuilder();
-//        query.insertFromFile();
-//        query.Inactivare();
-//        query.StergeAdresaInactiva();
-//        String dept = "HR";
-//        query.SortareAdrese(dept);
-//        String email = "ex@example.com";
-//        String pass = "password";
-//        query.ChangePass(email,pass);
-
 public class QueryBuilder {
 
     public static Statement stmt;
@@ -34,9 +24,6 @@ public class QueryBuilder {
         String dept = department.getSelectedItem().toString();
         String func = function.getSelectedItem().toString();
         String accounttype = accoutType.getSelectedItem().toString();
-        System.out.println(dept);
-        System.out.println(func);
-        System.out.println(accounttype);
 
         String sql_insert = "insert into email values ('" + firstname + "','" + lastname + "','" + email + "','" + pass + "','" + dept + "','" + func + "','" + accounttype + "',1,'2018-01-09')";
         int result_insert = stmt.executeUpdate(sql_insert);
@@ -52,23 +39,20 @@ public class QueryBuilder {
         stmt.addBatch(sql_update);
 
         int[] result_update = stmt.executeBatch();
-        JOptionPane.showMessageDialog(null, "All the addresses which were not used for 3 months are inactives!", "Inactive emails", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "All the addresses which were not used for 3 months are now inactives!", "Inactive emails", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void DeleteInactiveEmails() throws SQLException {
         String sql_delete = "delete from email where active = 0";
         int result_delete = stmt.executeUpdate(sql_delete);
-        JOptionPane.showMessageDialog(null, "Addresses inactives had been deleted!", "Delete inactive emails", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Inactive addresses has been deleted!", "Delete inactive emails", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static void SortEmails(String dept) throws SQLException {
-//        String dept = "HR";
-        String sql_select = "select * from email where department = '" + dept + "' order by first_name, last_name";
+    public static ResultSet SortEmails(String dept) throws SQLException {
+        String sql_select = "select * from email where departament = '" + dept + "' order by first_name, last_name";
         ResultSet rs = stmt.executeQuery(sql_select);
 
-        while (rs.next()) {
-            System.out.println(rs.getString(1) + " " + rs.getString(2));
-        }
+      return rs;
     }
 
     public int VerifyEmailPass(JTextField Email, JTextField oldPass) throws SQLException {
@@ -95,7 +79,6 @@ public class QueryBuilder {
     public ResultSet selectAll() throws SQLException {
         String sql_select = "select * from email";
         ResultSet rs = stmt.executeQuery(sql_select);
-        JOptionPane.showMessageDialog(null, "Rows inserted in file from database succesful!", "Save emails in file", JOptionPane.INFORMATION_MESSAGE);
         return rs;
     }
 

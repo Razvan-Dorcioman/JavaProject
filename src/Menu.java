@@ -12,9 +12,10 @@ public class Menu extends JFrame {
 
     final AddEmail form = new AddEmail();
     final ChangePassword box = new ChangePassword("Change Password Box");
+    final DisplayDB table = new DisplayDB();
 
 
-    public Menu(String title){
+    public Menu(String title) throws SQLException {
         super(title);
         setSize(400,400);
 
@@ -89,6 +90,13 @@ public class Menu extends JFrame {
             }
         });
 
+        buttons[4].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table.setVisible(true);
+            }
+        });
+
         buttons[5].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,6 +109,7 @@ public class Menu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     exportDB(e);
+                    JOptionPane.showMessageDialog(null, "Rows inserted in file from database succesful!", "Save emails in file", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 } catch (UnsupportedEncodingException e1) {
