@@ -13,6 +13,7 @@ public class Menu extends JFrame {
     final AddEmail form = new AddEmail();
     final ChangePassword box = new ChangePassword("Change Password Box");
     final DisplayDB table = new DisplayDB();
+    final AddDepartment dept = new AddDepartment();
 
 
     public Menu(String title) throws SQLException {
@@ -107,7 +108,7 @@ public class Menu extends JFrame {
         buttons[6].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dept.setVisible(true);
             }
         });
 
