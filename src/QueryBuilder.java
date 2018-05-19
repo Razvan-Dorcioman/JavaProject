@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.xml.transform.Result;
 import java.sql.*;
 
 public class QueryBuilder {
@@ -84,6 +85,7 @@ public class QueryBuilder {
         int nr = Integer.parseInt(rs_id.getString(1));
 
         String sql_select = "select * from email where department = '" + nr + "' order by first_name, last_name";
+
         ResultSet rs = stmt.executeQuery(sql_select);
 
       return rs;
@@ -109,8 +111,21 @@ public class QueryBuilder {
         JOptionPane.showMessageDialog(null, "The password was modified!", "Modify password", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void addDepartment(String dept,int n) throws SQLException {
-        String sql_insert = "insert into departments values ('" + n + "','" + dept + "')";
+    public int VerifyDepartments(String dept) throws SQLException {
+        String sql_select = "select name_department from departments where name_department = '"+ dept +"'";
+        ResultSet rs = stmt.executeQuery(sql_select);
+        int c = 0;
+        if(rs.next())
+            c++;
+        return c;
+    }
+
+    public void addDepartment(String dept) throws SQLException {
+        String sql_select = "select count(id) from departments";
+        ResultSet rs = stmt.executeQuery(sql_select);
+        rs.next();
+        int index = Integer.parseInt(rs.getString(1));
+        String sql_insert = "insert into departments values ('" + (index + 1) + "','" + dept + "')";
         int result_insert = stmt.executeUpdate(sql_insert);
         JOptionPane.showMessageDialog(null, "A new department was inserted", "Add department", JOptionPane.INFORMATION_MESSAGE);
     }
