@@ -40,7 +40,20 @@ public class QueryBuilder {
         String func = function.getSelectedItem().toString();
         String accounttype = accoutType.getSelectedItem().toString();
 
-        String sql_insert = "insert into email values ('" + firstname + "','" + lastname + "','" + email + "','" + pass + "','" + dept + "','" + func + "','" + accounttype + "',1,'2018-01-09')";
+        String sql_select_dept = "select id from departments where name_department = '" + dept + "'";
+        ResultSet rs_id = stmt.executeQuery(sql_select_dept);
+        rs_id.next();
+        //System.out.println(rs_id.getInt(1));
+        int nr_dept = Integer.parseInt(rs_id.getString(1));
+
+        String sql_select_func = "select id from functions where name_function = '" + func + "'";
+        ResultSet rs_f = stmt.executeQuery(sql_select_func);
+        rs_f.next();
+        //System.out.println(rs_f.getInt(1));
+        int nr_func = Integer.parseInt(rs_f.getString(1));
+
+
+        String sql_insert = "insert into email values ('" + firstname + "','" + lastname + "','" + email + "','" + pass + "','" + nr_dept + "','" + nr_func + "','" + accounttype + "',1,'2018-01-09')";
         int result_insert = stmt.executeUpdate(sql_insert);
         if (result_insert > 0)
             JOptionPane.showMessageDialog(null, "Update a new employer succesful", "Add email", JOptionPane.INFORMATION_MESSAGE);
@@ -64,7 +77,15 @@ public class QueryBuilder {
     }
 
     public static ResultSet SortEmails(String dept) throws SQLException {
-        String sql_select = "select * from email where department = '" + dept + "' order by first_name, last_name";
+
+        String sql_select_dept = "select id from departments where name_department = '" + dept + "'";
+        ResultSet rs_id = stmt.executeQuery(sql_select_dept);
+        rs_id.next();
+        System.out.println(rs_id.getInt(1));
+        int nr = Integer.parseInt(rs_id.getString(1));
+
+        String sql_select = "select * from email where department = '" + nr + "' order by first_name, last_name";
+
         ResultSet rs = stmt.executeQuery(sql_select);
 
       return rs;
