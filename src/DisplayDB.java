@@ -3,17 +3,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DisplayDB extends JFrame {
 
     String[] columnNames = {"First Name", "Last Name", "Email", "Password", "Department", "Function", "Account Type", "Active", "Last Login"};
-    String[][] data = new String[25][9];
+    String[][] data = new String[40][9];
 
     QueryBuilder query;
     JTable table;
 
-    String[] messageDepartment = {"Select Department...", "HR", "Marketing", "Finance"};
-    JComboBox messageListDepartment;
+    ArrayList<String> messageDepartment = new ArrayList<String>();
+    JComboBox messageListDepartment ;
 
     public DisplayDB() throws SQLException {
         super("Display Data Base");
@@ -23,7 +24,14 @@ public class DisplayDB extends JFrame {
         setLayout(null);
         setResizable(false);
 
-        messageListDepartment = new JComboBox(messageDepartment);
+        messageDepartment.add("Select Department...");
+        ResultSet rs2 = query.getDepartments();
+        while (rs2.next()) {
+            messageDepartment.add(rs2.getString(1));
+        }
+
+        String[] DepartmentString = messageDepartment.toArray(new String[messageDepartment.size()]);
+        messageListDepartment = new JComboBox(DepartmentString);
         messageListDepartment.setBounds(5, 5, 140, 30);
         messageListDepartment.setSelectedIndex(0);
         messageListDepartment.setVisible(true);
